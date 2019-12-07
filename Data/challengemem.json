@@ -1,0 +1,51 @@
+[
+  {
+    "idchallenge": "cl001",
+    "iduser": "us002",
+    "streak": "",
+    "status": 0
+  },
+  {
+    "idchallenge": "cl001",
+    "iduser": "us003",
+    "streak": "",
+    "status": 0
+  },
+  {
+    "idchallenge": "cl004",
+    "iduser": "us009",
+    "streak": "1,1,0,1,0,0,1",
+    "status": 1
+  },
+  {
+    "idchallenge": "cl001",
+    "iduser": "us009",
+    "streak": "1,1,0,1,0",
+    "status": 0
+  },
+  {
+    "idchallenge": "cl002",
+    "iduser": "us009",
+    "streak": "1,1,1,1,1,0,1",
+    "status": 1
+  },
+  {
+    "idchallenge": "cl003",
+    "iduser": "us009",
+    "streak": "1,0,1,1,1,0,1,0",
+    "status": 1
+  },
+  {
+    "idchallenge": "cl005",
+    "iduser": "us009",
+    "streak": "0,1,1,0,1,0,1,1",
+    "status": 2
+  },
+  {
+    "idchallenge": "cl007",
+    "iduser": "us009",
+    "streak": "1,1,1,1,1,0,1,1",
+    "status": 2
+  }
+
+]

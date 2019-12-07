@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="Mainstyle.css" type="text/css" />
+
+    <!-- Khai báo external các kiểu -->
+    <script src="js/sweetalert.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/DataFactory.js"></script>
+    <script>
+        var UserList = []
+        var app = angular.module("angularApp", [])
+        app.controller("Controller", function ($scope, $http) {
+            $http({
+                method: "GET",
+                url: "Data/user.json"
+            }).then(function mySucces(respone) {
+                $scope.user = respone.data
+                UserList = respone.data
+
+                SaveToLocal("UserList",UserList)
+            }, function myError(respone) {
+                $scope.dataError = respone.statusText
+            }
+            )
+        });
+
+    </script>
+</head>
+<body class="firststyle" ng-app="angularApp" ng-controller="Controller">
+    <label>Nếu bạn chưa có tài khoản</label>
+    <input class="button" type="button" value="Đăng ký" onclick="window.open('RegisterPage.html','_self')" />
+    <input class="button" type="button" value="Giới thiệu" onclick="window.open('AboutUs.html','_self')" /><br /><br />
+    <div id="blurbox">
+        <center><p class="title">Chào mừng đến với ImDone</p>
+        <input class="textbox login" type="email" placeholder="Nhập email" name="txtemail" id="txtemail" value="abc@gmail.com"/><br />
+        <input class="textbox login" type="password" placeholder="Nhập mật khẩu" name="txtpass" id="txtpass" value="123456"/><br />
+        <input class="button" type="button" value="Đăng nhập" onclick="CheckLogin()" id="btnLogin" name="btnLogin"/></center>
+    </div>
+    <p id="test2"></p>
+    <script>
+        function CheckLogin() {
+            email = document.getElementById("txtemail").value;
+            pass = document.getElementById("txtpass").value;
+
+            if (CheckValidEmail(email) == false) {return}
+
+            for (i = 0; i < UserList.length; i++) {
+                    if (email == UserList[i].email && pass == UserList[i].pass) {
+                        //swal("Đăng nhập thành công", "Chúc mừng bạn đã đăng nhập thành công", "success")
+
+                        SaveToLocal("currentUser",UserList[i])
+                        SaveToLocal("userMode", "0")
+                        SaveToLocal("targetUser",UserList[i])
+
+                        window.open("Challenge.html","_self")
+                    }
+                }
+        }
+
+        var input = document.getElementById("txtpass");
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("btnLogin").click();
+            }
+        })
+
+        
+    </script>
+</body>
+
+</html>

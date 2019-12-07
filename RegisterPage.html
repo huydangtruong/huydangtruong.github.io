@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    <script src="js/sweetalert.js"></script>
+    <link rel="stylesheet" href="Mainstyle.css" type="text/css" />
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script>
+        var UserList = []
+        var app = angular.module("angularApp", [])
+        app.controller("Controller", function ($scope, $http) {
+            $http({
+                method: "GET",
+                url: "Data/user.json"
+            }).then(function mySucces(respone) {
+                $scope.user = respone.data
+                UserList = respone.data
+            }, function myError(respone) {
+                $scope.dataError = respone.statusText
+            }
+            )
+        });
+    </script>
+</head>
+<body class="firststyle" ng-app="angularApp" ng-controller="Controller">
+    <input class="button" type="button" value="Đăng nhập" onclick="window.open('LoginPage.html','_self')" />
+    <input class="button" type="button" value="Giới thiệu" onclick="window.open('AboutUs.html','_self')" /><br /><br />
+    <div id="blurbox">
+        <form>
+            
+            <input class="textbox register" type="text" placeholder="Email của bạn" name="txtemail" id="txtemail" /><br />
+            <input class="textbox register" type="text" placeholder="Họ và tên" name="txtname" id="txtname" /><br />
+            <input type="radio" name="radgt" id="radnam" /><label for="radnam">Nam</label>
+            <input type="radio" name="radgt" id="radnu" /><label for="radnu">Nữ</label><br />
+            <input class="textbox register" type="date" name="txtbirth" id="txtbirth" /><br />
+            <input class="textbox register" type="number" placeholder="Số điện thoại" name="txtphone" id="txtphone" /><br />
+            <input class="textbox register" type="text" placeholder="Địa chỉ" name="txtaddress" id="txtaddress" /><br />
+            <input class="textbox register" type="password" placeholder="Mật khẩu của bạn" name="txtpass" id="txtpass" /><br />
+
+            <input class="button" type="button" value="Đăng ký" onclick="Regis()" />
+        </form>
+    </div>
+
+    <script>
+        var email
+        var pass
+        var name
+        var gender
+        var DoB
+        var phone
+        var address
+
+        function SaveToLocal(name, value) {
+            localStorage.setItem(name,JSON.stringify(value))
+        }
+
+        function CheckValidEmail(x) {
+            if (x.includes("@") == false || x.includes(".") == false) {
+                swal("Email không hợp lệ", "Vui lòng nhập đúng định dạng email", "warning")
+                return false
+            }
+
+            for (i = 0; i < UserList.length; i++) {
+                if (x == UserList[i].email) {
+                    swal("Email không hợp lệ", "Địa chỉ email này đã được đăng ký", "warning")
+                    return false
+                }
+            }
+            return true
+        }
+
+        function Regis() {
+            email = document.getElementById("txtemail").value;
+            pass = document.getElementById("txtpass").value;
+            name = document.getElementById("txtname").value;
+            DoB = document.getElementById("txtbirth").value;
+            phone = document.getElementById("txtphone").value;
+            address = document.getElementById("txtaddress").value;
+
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+
+            var joinDate = mm + '/' + dd + '/' + yyyy;
+
+
+            gender = "1"
+            if (document.getElementById('radnu').checked) {
+                gender = "0"
+            }
+
+            regisInfo = {
+                "id-user": "us001",
+                "name": name,
+                "email": email,
+                "pass": pass,
+                "gender": gender,
+                "dob": DoB,
+                "phone": phone,
+                "avatar": "IMG/userimg/us000.png",
+                "wallpaper": "IMG/userimg/us100.png",
+                "address": address,
+                "joindate": joinDate
+            }
+
+            if (CheckValidEmail(email) == false) { return }
+
+            if (pass.length < 6) {
+                swal("Mật khẩu không hợp lệ", "Mật khẩu không được dưới 6 ký tự", "warning")
+                return
+            }
+            SaveToLocal("currentUser", regisInfo)
+            SaveToLocal("ayo", "dìa dia")
+
+            myWindow = window.open("Challenge.html", "_blank");
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿#blurbox {
+    padding: 30px;
+    box-shadow: 3px 3px 3px 0.2px #808080;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+}
+
+.textbox {
+    border-radius: 5px;
+    padding: 5px;
+    margin: 2px;
+}
+.register {
+    width: 300px;
+}
+.login {
+    width: 200px;
+}
+.button {
+    border-radius: 5px;
+    padding: 5px;
+    width: 210px;
+    color: white;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    background-color: dodgerblue;
+}
+.button:hover {
+    background-color: cornflowerblue;
+}
+
+body.firststyle{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color:dimgray;
+    font-size:14px;
+}
+p.title {
+    color: darksalmon;
+    font-size: 18px;
+}

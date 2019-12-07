@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="js/DataFactory.js"></script>
+</head>
+<body>
+    <p id="xxx">cc</p>
+
+    <img src="IMG/wallpost/a01.png"
+
+    <p>Name: <span id="a"></span></p>
+    <p>Email: <span id="b"></span></p>
+    <p>Pass: <span id="c"></span></p>
+    <p>Date of birth: <span id="d"></span></p>
+    <p>Phone: <span id="e"></span></p>
+    <p>Address: <span id="f"></span></p>
+    <p>Join date: <span id="g"></span></p>
+
+    <script>
+        function AddIcon2(text) {
+            icon = {
+                ":))": "001.png",
+                ":D": "002.png",
+                "(y)": "003.png",
+                ":o": "004.png",
+                ":/": "005.png",
+                ":(": "006.png",
+                "<3": "007.png",
+                "\*/": "008.png",
+                "B|": "009.png"
+            };
+
+            var text2 = text
+
+            for (i = 0; i < 9; i++) {
+                var iconstr = Object.keys(icon)[i]
+                var iconimg = icon[iconstr]
+
+                htmlstr = '<img src="' + "IMG/icon/" + iconimg + '" />'
+                text2 = text2.replace(iconstr, htmlstr);
+            }
+
+            return text2
+        }
+
+        icon = {
+                ":))": "001.png",
+                ":D": "002.png",
+                "(y)": "003.png",
+                ":o": "004.png",
+                ":/": "005.png",
+                ":(": "006.png",
+                "<3": "007.png",
+                "\*/": "008.png",
+                "B|": "009.png"
+            };
+
+        var t = "Xin chào :)) các bạn"
+       
+        var h = AddIcon2(t)
+        PrintToTag("xxx",h)
+
+        function GetStoredData(name) {
+            return JSON.parse(localStorage.getItem(name))
+        }
+        function PrintToTag(id, value) {
+            document.getElementById(id).innerHTML = value
+        }
+
+        regisInfo = GetStoredData("regisinfo")
+
+        console.log(a)
+        console.log(JSON.stringify(regisInfo))
+
+        PrintToTag("a", regisInfo.name)
+        PrintToTag("b", regisInfo.email)
+        PrintToTag("c", regisInfo.pass)
+        PrintToTag("d", regisInfo.dob)
+        PrintToTag("e", regisInfo.phone)
+        PrintToTag("f", regisInfo.address)
+        PrintToTag("g", regisInfo.joindate)
+    </script>
+</body>
+</html>

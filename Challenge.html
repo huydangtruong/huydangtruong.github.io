@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <!-- Khai báo external các kiểu -->
+    <link rel="stylesheet" href="StyleControl.css" type="text/css" />
+
+    <script src="js/sweetalert.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/DataFactory.js"></script>
+
+    <script>
+        var ChallengeList = []
+        var UserList = GetStoredData("UserList")
+        var app = angular.module("angularApp", [])
+        app.controller("Controller", function ($scope, $http, $sce) {
+            $http({
+                method: "GET",
+                url: "Data/challenge.json"
+            }).then(function mySucces(respone) {
+                $scope.trustAsHtml = $sce.trustAsHtml //Nhận tag html khi ng-repeat
+                $scope.challenge = respone.data
+                ChallengeList = respone.data
+
+                for (i = 0; i < Object.keys(ChallengeList).length; i++) {
+                    ChallengeList[i]["numday"] = CountDay(ChallengeList[i].createdate)
+                    ChallengeList[i]["tagcolor"] = GetTagColor(ChallengeList[i].idtag)
+                    ChallengeList[i]["tagname"] = GetTagName(ChallengeList[i].idtag)
+                    ChallengeList[i]["numdone"] = ChallengeList[i].todaycomplete.length
+                    ChallengeList[i]["todaydone"] = ListUserImg(ChallengeList[i].todaycomplete, UserList)
+                }
+
+                $scope.ChangeToComplete = function (idcl) {
+                    if (document.getElementById(idcl).getAttribute("src") == "IMG/system/checkdone1.png") {
+                        SetAttribute(idcl, "src", "IMG/system/checkdone2.png")
+                    }
+                    else {
+                        SetAttribute(idcl, "src", "IMG/system/checkdone1.png")
+                    }
+                }
+
+            }, function myError(respone) {
+                $scope.dataError = respone.statusText
+            }
+            )
+        });
+
+    </script>
+
+</head>
+<body ng-app="angularApp" ng-controller="Controller">
+    <a id="tabChallenge" name="tabChallenge" href="Challenge.html">Thử thách</a>
+    <a id="tabCommunity" name="tabCommunity" href="Community.html">Cộng đồng</a>
+    <input id="txtSearch" name="txtSearch" type="text" placeholder="Tìm kiếm..." />
+    <img id="picAva" name="picAva" src="" height="50" width="50" />
+    <b id="tabProfile" name="tabProfile" onclick="Go2Profile()" style="color: dodgerblue"></b>
+
+    <div class="row">
+        <!--Select menu tab-->
+        <div class="column left">
+            <img src="IMG/system/adthanh.gif" width="100%"/>
+        </div>
+
+    <!-- Content of Page -->
+    <div class="column middle">
+        <!--Nội dung newsfeed-->
+        <div class="challenge-div" ng-repeat="cl in challenge">
+            <div class="challenge-pic">
+                <img src="{{cl.wallpaper}}" style="width: 100%; height: 100px; border-radius: 15px 15px 0px 0px;" />
+                <div class="challenge-name">{{cl.name}}</div>
+            </div>
+            <table width="100%">
+                <tr>
+                    <td width="70%">
+                        <span style="margin-left: 18px">
+                            <span class="tagspan" style="background-color: {{cl.tagcolor}}">{{cl.tagname}} 
+                            </span>
+                            <span>
+                                <img src="IMG/icon/viewer.png" height="17" width="17" />
+                                {{cl.views}}
+                            </span>
+                            <br />
+                            <span>Ngày thứ {{cl.numday}}
+                            </span>
+                        </span>
+                    </td>
+                    <td width="30%" align="right">
+                        <span style="color: green; font-size: 12px">Đã có {{cl.numdone}} người  hoàn thành</span><br />
+                        <span ng-bind-html="trustAsHtml(cl.todaydone)"></span>
+                        <br />
+                        <img id="{{cl.idchallenge}}" src="IMG/system/checkdone1.png" height="30" width="60" ng-click="ChangeToComplete(cl.idchallenge)" />
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- Show notifications -->
+    <div class="column right">
+    </div>
+    </div>
+
+    <script>
+        var CurrentUser = GetStoredData("currentUser")
+
+        PrintToTag("tabProfile", CurrentUser.name)
+        SetAttribute("picAva", "src", CurrentUser.avatar)
+        SetAttribute("picAva2", "src", CurrentUser.avatar)
+
+        function Go2Profile() {
+            GoToProfile(GetStoredData("currentUser").iduser, GetStoredData("UserList"))
+        }
+
+        function OpenChallengeList() {
+            window.open("ChallengeList.html", "_self")
+        }
+    </script>
+</body>
+</html>
