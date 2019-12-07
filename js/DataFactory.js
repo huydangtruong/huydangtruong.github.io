@@ -121,7 +121,7 @@ function getCurrentDate() {
 
 function getRandomIMG() {
 
-    img = ["a01.png", "a02.png", "a03.png", "a04.png", "a05.png", "a61.png", "a07.png"]
+    img = ["a01.png", "a02.png", "a03.png", "a04.png", "a05.png", "a06.png", "a07.png"]
 
     return "IMG/wallpost/"+img[Math.floor(Math.random() * 7)]
 }
