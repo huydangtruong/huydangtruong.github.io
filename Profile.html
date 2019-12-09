@@ -1,0 +1,631 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="Mainstyle.css" type="text/css" />
+
+    <!-- Khai báo external các kiểu -->
+    <link rel="stylesheet" href="CSS/StyleControl.css" type="text/css" />
+    <script src="js/sweetalert.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/DataFactory.js"></script>
+    <link href="CSS/Container.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/NavigationBar.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Footer.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/ContentHome.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="CSS/ScrollTop.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Category.css" type="text/css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="CSS/Profile.css" />
+    <link href="CSS/css_contact.css" type="text/css" rel="stylesheet" />
+    <script>
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+    <script>
+        var app = angular.module("angularApp", [])
+        var UserList = GetStoredData("UserList")
+        //Thêm $sce vào để nhận tag html qua ng-bind-html
+        app.controller("Controller", function ($scope, $http, $sce) {
+            var Usermode = GetStoredData("userMode")
+            var CurrentUser = GetStoredData("currentUser")
+
+            if (Usermode == "1") {
+                CurrentUser = GetStoredData("targetUser")
+            }
+            //------------------------------------Show user's post----------------------------------------
+            $http({
+                method: "GET",
+                url: "Data/wallpost.json"
+            }).then(function mySucces(respone) {
+                $scope.trustAsHtml = $sce.trustAsHtml //Nhận tag html khi ng-repeat
+                var postList = respone.data
+                var currentUserPosts = []
+
+                for (i = 0; i < postList.length; i++) {
+                    if (postList[i].iduser == CurrentUser.iduser) {
+                        currentUserPosts.push(postList[i])
+                    }
+                }
+                for (j = 0; j < Object.keys(currentUserPosts).length; j++) {
+                    var t = currentUserPosts[j].content
+                    //Thế các ký tự icon trong content bằng tag img
+                    currentUserPosts[j].content = AddIcon(t)
+                    currentUserPosts[j].username = CurrentUser.name
+                    currentUserPosts[j].avatar = CurrentUser.avatar
+                }
+                var temp = []
+                for (n = 0; n < 9; n++) {
+                    if (n < Object.keys(currentUserPosts).length) {
+                        temp.push(currentUserPosts[n].image)
+                    }
+                    else {
+                        temp.push("IMG/wallpost/000.png")
+                    }
+                }
+                currentUserPosts.reverse()
+                $scope.wallpost = currentUserPosts
+
+                var targetPost
+                $scope.HidePost = function (id) {
+                    targetPost = document.getElementById(id);
+                    if (CurrentUser.iduser != GetStoredData("currentUser").iduser) {
+                        return
+                    }
+                    document.getElementById("myModal4").style.display = "block";
+                }
+                $scope.ConfirmHide = function () {
+                    targetPost.style.display = "none";
+                    document.getElementById("myModal4").style.display = "none";
+                }
+                var span4 = document.getElementById("close4");
+                span4.onclick = function () {
+                    document.getElementById("myModal4").style.display = "none";
+                }
+
+                //----------------------------Get user's image to show-------------------------------
+                var xyz = []
+                for (m = 0; m < 9; m = m + 3) {
+                    var p1 = temp[m]
+                    var p2 = temp[m + 1]
+                    var p3 = temp[m + 2]
+
+                    xyz.push({ "pic1": p1, "pic2": p2, "pic3": p3 })
+                }
+                $scope.userpics = xyz
+
+                listFollowerByUsrID = CurrentUser.follower
+                listFollower = []
+
+                //------------------------------Show Follower---------------------------------------
+                for (index = 0; index < listFollowerByUsrID.length; index++) {
+                    for (ind = 0; ind < Object.keys(UserList).length; ind++) {
+                        if (listFollowerByUsrID[index] == UserList[ind].iduser) {
+                            listFollower.push({ "iduser": UserList[ind].iduser, "avatar": UserList[ind].avatar, "name": UserList[ind].name })
+                        }
+                    }
+                }
+                $scope.listFollower = listFollower
+
+                $scope.GoToProfile = function (iduser) {
+                    CurrentUserId = GetStoredData("currentUser").iduser
+                    if (iduser != CurrentUserId) {
+                        SaveToLocal("userMode", "1")
+                    }
+
+                    for (indx = 0; indx < Object.keys(UserList).length; indx++) {
+                        if (iduser == UserList[indx].iduser) {
+                            SaveToLocal("targetUser", UserList[indx])
+                        }
+                    }
+                    window.open("Profile.html", "_self")
+                }
+
+                //----------------------------Show modal---------------------------------
+                var modal = document.getElementById("myModal");
+                var span = document.getElementById("close");
+
+                $scope.ShowPost = function (imgName) {
+                    modalimg = document.getElementById("modalimg")
+                    modalimg.innerHTML = "<img src='" + imgName + "' height='400' width='500'/>"
+                    modalava = document.getElementById("modalava")
+                    modalava.innerHTML = "<img src='" + CurrentUser.avatar + "' height='90' width='90' style='border-radius:100%; border:2px solid #ff9900'/>"
+                    modalusr = document.getElementById("modalusr")
+                    modalusr.innerHTML = "<b>" + CurrentUser.name + "</b>"
+
+                    for (index = 0; index < Object.keys(currentUserPosts).length; index++) {
+                        if (imgName == currentUserPosts[index].image) {
+                            var Loves = currentUserPosts[index].love
+                            var PostContent = currentUserPosts[index].content
+                        }
+                    }
+
+                    modallove = document.getElementById("modallove")
+                    modallove.innerHTML = "<img src='IMG/icon/heart.png' height='17' width='17' />" +
+                        "<font style='color:red'> " + Loves + " người đã thích bài viết này" + "</font>" +
+                        "<p>" + PostContent + "</p>"
+
+                    modal.style.display = "block";
+                }
+
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                var modal3 = document.getElementById("myModal3");
+                var modal4 = document.getElementById("myModal4");
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                    if (event.target == modal2) {
+                        modal2.style.display = "none";
+                    }
+                    if (event.target == modal3) {
+                        modal3.style.display = "none";
+                    }
+                    if (event.target == modal4) {
+                        modal4.style.display = "none";
+                    }
+                }
+                //-------------------------------------------------------------------------
+
+                //---------------------------Get medals data-------------------------------
+                $http({
+                    method: "GET",
+                    url: "Data/medals.json"
+                }).then(function mySucces(respone) {
+                    $scope.trustAsHtml = $sce.trustAsHtml //Nhận tag html khi ng-repeat
+                    var medalsinfo = respone.data.medalinfo
+                    var medalsdetail = respone.data.medaldetail
+                    var usrmedals = []
+
+                    for (t = 0; t < Object.keys(medalsdetail).length; t++) {
+                        if (medalsdetail[t].iduser == CurrentUser.iduser) {
+                            usrmedals.push(medalsdetail[t])
+                        }
+                    }
+                    //Get medal detail
+                    for (k = 0; k < Object.keys(usrmedals).length; k++) {
+                        usrmedals[k].medalIMGtag = MedalBox(usrmedals[k].medal)
+                    }
+                    $scope.usrmedals = usrmedals
+
+                    //Show medail info
+                    var span3 = document.getElementById("close3");
+                    $scope.ShowMedalInfo = function (medalname) {
+                        for (iid = 0; iid < Object.keys(medalsinfo).length; iid++) {
+                            if (medalsinfo[iid].medal == medalname) {
+                                SetAttribute("medalimg", "src", medalsinfo[iid].medal)
+                                PrintToTag("medalname", medalsinfo[iid].name)
+                                PrintToTag("medalinfo", medalsinfo[iid].info)
+
+                                medalshow = document.getElementById("myModal3")
+                                medalshow.style.display = "block";
+                            }
+                        }
+                    }
+                    span3.onclick = function () {
+                        document.getElementById("myModal3").style.display = "none";
+                    }
+
+
+                    //----------------------------Get challengemem data-------------------------------------
+                    $http({
+                        method: "GET",
+                        url: "Data/challengemem.json"
+                    }).then(function mySucces(respone) {
+                        $scope.trustAsHtml = $sce.trustAsHtml //Nhận tag html khi ng-repeat
+                        var challmem = respone.data
+                        var chall = []
+                        var countfinish = 0
+
+                        //Count total loves
+                        var totallove = 0
+                        for (z = 0; z < Object.keys(currentUserPosts).length; z++) {
+                            totallove = totallove + currentUserPosts[z].love
+                        }
+                        for (u = 0; u < Object.keys(challmem).length; u++) {
+                            if (challmem[u].iduser == CurrentUser.iduser) {
+                                chall.push(challmem[u])
+                            }
+                        }
+                        console.log(chall)
+                        for (q = 0; q < chall.length; q++) {
+                            if (chall[q].status == 2) {
+                                countfinish = countfinish + 1
+                            }
+                        }
+                        Update(countfinish, totallove)
+                    });
+                });
+            },
+                function myError(respone) {
+                    $scope.dataError = respone.statusText
+                }
+            )
+        });
+    </script>
+</head>
+
+<body ng-app="angularApp" ng-controller="Controller" style="background-image:url(IMG/img/background.png)">
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top">
+        <img src="IMG/img/downtop.PNG" width="30px" />
+    </button>
+    <!-- MENU -->
+    <div class="container">
+        <div id="logo">
+            <img src="IMG/img/logo.png" class="logo" />
+        </div>
+
+        <form action="/search/" class="search-form">
+            <div class="input-group">
+                <input class="search" type="search" name="q" placeholder="Tìm kiếm ..." autocomplete="off">
+                <div class="input-group-append">
+                    <button class="btnsearch" type="submit">
+                        <img src="IMG/img/search.png" width="20px" height="18px" />
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- MENU LINKS -->
+        <div class="navbar">
+            <a href="HomePage.html" class="color-title">Trang Chủ</a>
+            <div class="subnav">
+                <div class="subnavbtn" onclick="window.open('Challenge.html','_self')">Thử Thách&nbsp;<i class="fa fa-caret-down"></i></div>
+                <div class="subnav-content">
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg001')">
+                        <img src="IMG/img/health.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Sức khoẻ
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg002')">
+                        <img src="IMG/img/language.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Ngoại ngữ
+
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg003')">
+                        <img src="IMG/img/eat.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Ăn uống
+
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg004')">
+                        <img src="IMG/img/study.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Sách
+                        </p>
+                    </a>
+
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg005')">
+                        <img src="IMG/img/nghethuat.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Nghệ thuật
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg006')">
+                        <img src="IMG/img/strong.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Trải nghiệm
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg007')">
+                        <img src="IMG/img/love.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Tình yêu
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg008')">
+                        <img src="IMG/img/family.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Gia đình
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg009')">
+                        <img src="IMG/img/banbe (2).png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Bạn bè
+                        </p>
+                    </a>
+
+
+                    <a class="Category" href="#" onclick="SaveToLocal('tg010')">
+                        <img src="IMG/img/moitruong.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Môi trường
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="SaveToLocal('tg011')">
+                        <img src="IMG/img/congnghe.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Công nghệ
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="SaveToLocal('tg012')">
+                        <img src="IMG/img/thienvan (2).png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Thiên văn
+                        </p>
+                    </a>
+
+                </div>
+            </div>
+            <a href="#" class="color-title">Diễn đàn</a>
+            <a onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="btnContact color-title">Liên hệ</a>
+
+            <div class="subnav" style="float:right">
+                <span class="subnavbtn">
+                    <img id="picAva" name="picAva" src="" height="50" width="50" style="border-radius:100% ;margin-top:10px;margin-left:5px;" />
+                    <b id="tabProfile" name="tabProfile" style="color:white"></b>
+                </span>
+                <!--Menu Account-->
+                <div class="subnav-content-account">
+
+                    <a class="Category-account" href="AboutUs.html">
+                        <img src="IMG/img/logout.png" class="icon_2Ap-" alt="" style="height:20px;width:20px">
+                        <span class="text_3zD4" style="color: rgb(0, 0, 0);">
+                            Đăng xuất
+                        </span>
+                    </a>
+
+                    <a class="Category-account" href="EditInfo.html">
+                        <img src="IMG/img/chinhsua.png" alt="" style="height:20px;width:20px">
+                        <span style="color: rgb(0, 0, 0);">
+                            Chỉnh sửa Profile
+                        </span>
+
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+    <!---------------------------------- Modal content -------------------------------------->
+    <div id="myModal" class="modal">
+        <div class="modal-content" style="border-radius:10px">
+            <span id="close" class="close">&times;</span>
+            <table>
+                <tr>
+                    <td id="modalava" valign="top" align="right"></td>
+                    <td id="modalusr"></td>
+                </tr>
+                <tr>
+                    <td id="modallove" valign="top" colspan="2" style="padding:10px"></td>
+                </tr>
+                <tr height="80%">
+
+                    <td id="modalimg" colspan="2" align="center"></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="myModal2" class="modal">
+        <div class="modal-content">
+            <span id="close2" class="close">&times;</span>
+            <center><p><b>Người theo dõi</b></p></center>
+            <table>
+                <tr ng-repeat="u in listFollower" ng-click="GoToProfile(u.iduser)">
+                    <td>
+                        <img src="{{u.avatar}}" width="40" height="40" />
+                    </td>
+                    <td>{{u.name}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="myModal3" class="modal">
+        <div class="modal-content" style="width: 40%;border-radius:10px">
+            <span id="close3" class="close">&times;</span>
+            <center>
+                <img id="medalimg" height="200" width="200" />
+                <p><b id="medalname">Tên huy hiệu</b></p>
+            </center>
+            <p id="medalinfo">Mô tả huy hiệu</p>
+        </div>
+    </div>
+    <div id="myModal4" class="modal">
+        <div class="modal-content" style="width: 40%">
+            <span id="close4" class="close">&times;</span>
+            <p>Bạn có chắc muốn xoá không?</p>
+            <center>
+                <input type="button" value="Xoá" ng-click="ConfirmHide()" />
+                <input type="button" value="Huỷ" />
+            </center>
+        </div>
+    </div>
+
+    <!-----------------------------------Show wallpaper and avatar-------------------------------------->
+    <center>
+        <img id="wallpaper" class="wallpaper" />
+        <div class="ava">
+            <img id="avatar" width="200" height="200" />
+            <h3 id="lblName"></h3>
+        </div>
+    </center>
+
+
+    <div class="row">
+        <div class="column left" style="padding-top:10px">
+            <div id="lblfollower" class="content-profile" onclick="ShowFollower()"></div>
+            <!-------------------------------Show user's pictures----------------------------------------->
+            <div class="content-profile">Ảnh</div>
+            <table width="100%">
+                <tr ng-repeat="img in userpics">
+                    <td width="33%" ng-click="ShowPost(img.pic1)">
+                        <img src="{{img.pic1}}" style="display: block; width: 100%; height: 85px;" />
+                    </td>
+                    <td width="33%" ng-click="ShowPost(img.pic2)">
+                        <img src="{{img.pic2}}" style="display: block; width: 100%; height: 85px;" />
+                    </td>
+                    <td width="33%" ng-click="ShowPost(img.pic3)">
+                        <img src="{{img.pic3}}" style="display: block; width: 100%; height: 85px;" />
+                    </td>
+                </tr>
+            </table>
+            <!-- Add google map here -->
+        </div>
+
+        <!----------------------------------- Content of Page ------------------------------------->
+        <div class="column middle" style="padding-top:10px">
+            <div style="height: 100px;margin-bottom:20px">
+                <!-- Đăng post -->
+                <div style="height: 80px; padding-bottom: 4px;">
+                    <textarea id="uploadpost" class="uploadpostarea" rows="4" placeholder="Bạn đang nghĩ gì?"></textarea>
+                </div>
+                <!-- Nút Chọn ảnh và đăng -->
+                <div>
+                    <button class="styleClass" onclick="document.getElementById('getIMG').click()">Chọn ảnh</button>
+                    <input type='file' id="getIMG" style="display: none" accept="image/gif, image/jpeg, image/png, image/jpg">
+
+                    <input type="button" value="Đăng" class="styleClass" onclick="uploadpost()" />
+                </div>
+            </div>
+            <!-- Các bài đăng -->
+            <div id="newpost"></div>
+            <div ng-repeat="p in wallpost" class="wallpost" id="{{p.idwallpost}}" style="z-index:-1">
+                <span class="close" ng-click="HidePost(p.idwallpost)">&times;</span>
+                <img src="{{p.avatar}}" class="avatar" />
+                <p><b>{{p.username}}</b></p>
+                <p style="font-size: 12px">{{p.date}}</p>
+                <p ng-bind-html="trustAsHtml(p.content)"></p>
+                <center>
+                    <img src="{{p.image}}" class="imgpost" />
+                </center>
+                <p style="color: red">
+                    <img src="IMG/icon/heart.png" height="17" width="17" />{{p.love}}
+                </p>
+            </div>
+        </div>
+
+        <!-------------------------- Show user's medal ------------------------------------>
+        <div class="column right" style="padding-top:10px">
+            <div class="content-profile">Huy hiệu đạt được</div>
+            <div style="height:150px">
+                <span ng-repeat="medal in usrmedals">
+                    <span ng-bind-html="trustAsHtml(medal.medalIMGtag)" ng-click="ShowMedalInfo(medal.medal)"></span>
+                </span>
+            </div>
+            <div class="content-profile" style="height:100px">
+                <font class="pintroduce">Ngày tham gia  </font><span id="usrdate"></span>
+                <br />
+                <font class="pintroduce">Số thử thách đã hoàn thành  </font><span id="usrchall"></span>
+                <br />
+                <font class="pintroduce">Lượt yêu thích  </font><span id="usrlove"></span>
+            </div>
+        </div>
+    </div>
+    <!--Liên hệ-->
+    <div id="id01" class="background">
+        <div class="khung" align="center">
+            <img src="IMG/img/khung.png" width="995" height="525" usemap="#contact">
+            <map name="contact" id="usemap">
+                <area shape="rect" coords="950,10,983,40" onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal" />
+                <area shape="rect" coords="110,150,220,180" href="https://www.instagram.com" target="_blank" title="Instagram">
+                <area shape="rect" coords="110,220,250,250" href="https://www.facebook.com" target="_blank" title="Facebook">
+                <area shape="rect" coords="110,295,250,330" href="tel:+84369699999" alt="Call">
+                <area shape="rect" coords="110,370,345,400" href="https://mail.google.com/mail/u/0/" target="_blank" title="Gmail">
+                <area shape="rect" coords="110,440,540,480" href="https://www.google.com/maps/place/TTTM+S%C3%A0i+G%C3%B2n+Centre/@10.7733153,106.6987681,17z/data=!3m1!4b1!4m5!3m4!1s0x31752f4743648f3d:0x16ce95918cb14834!8m2!3d10.7733153!4d106.7009568?hl=vi-VN" target="_blank" title="Map">
+            </map>
+        </div>
+    </div>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <script>
+        var Usermode = GetStoredData("userMode")
+        var CurrentUser = GetStoredData("currentUser")
+        //----------------Set tab info by current user------------------------
+        PrintToTag("tabProfile", CurrentUser.name)
+        var CurrentUserID = CurrentUser.iduser
+        document.getElementById("tabProfile").onclick = function () { GoToProfile(CurrentUserID, UserList) }
+        SetAttribute("picAva", "src", CurrentUser.avatar)
+
+        //Change if have any target user
+        if (Usermode == "1") {
+            CurrentUser = GetStoredData("targetUser")
+        }
+
+        SetAttribute("wallpaper", "src", CurrentUser.wallpaper)
+        SetAttribute("avatar", "src", CurrentUser.avatar)
+        PrintToTag("lblName", CurrentUser.name)
+
+        PrintToTag("lblfollower", CurrentUser.follower.length + " người theo dõi")
+
+        function Update(countfinish, totallove) {
+            PrintToTag("usrdate", CurrentUser.joindate)
+            PrintToTag("usrchall", countfinish)
+            PrintToTag("usrlove", totallove)
+        }
+
+        //---------------Show Followers list---------------------
+        var modal2 = document.getElementById("myModal2");
+        var span2 = document.getElementById("close2");
+        function ShowFollower() {
+            modal2.style.display = "block";
+        }
+        span2.onclick = function () {
+            modal2.style.display = "none";
+        }
+
+        //-----------------Upload post----------------------
+        function uploadpost() {
+            var content = document.getElementById("uploadpost").value
+            newPostArea = document.getElementById("newpost")
+
+            newPostArea.innerHTML = "<div class='wallpost'>" +
+                "<img src='" + CurrentUser.avatar + "' class='avatar'/>" +
+                "<p><b>" + CurrentUser.name + "</b></p>" +
+                "<p style='font-size:12px'>" + getCurrentDate() + "</p>" +
+                "<p> " + AddIcon(content) + " </p>" +
+                "<center><img src='" + getRandomIMG() + "' height='440' width='400' />" +
+                "</center><p style='color:red'><img src='IMG/icon/heart.png' height='17' width='17' />0</p>" + "</div>"
+                + newPostArea.innerHTML
+        }
+    </script>
+</body>
+</html>

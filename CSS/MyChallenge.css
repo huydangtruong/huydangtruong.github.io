@@ -1,0 +1,36 @@
+﻿body {
+}
+.challenge-div {
+    border-radius: 15px;
+    border: 1px solid #ff9900;
+    box-shadow: 3px 3px 3px 0.5px #ff9900;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.challenge-pic {
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+}
+
+.challenge-name {
+    font-weight: 700;
+    font-family: Arial;
+    font-size: 23px;
+    margin-top: -30px;
+    bottom: 8px;
+    left: 16px;
+    text-shadow: 2px 2px 4px #000000;
+}
+.notifybox {
+    background-color: #f5f5f5;
+    margin-bottom: 2px;
+    padding: 1px;
+    display: block;
+}
+
+    .notifybox:hover .imagenotify {
+        content: url("IMG/system/close.png");
+    }
+

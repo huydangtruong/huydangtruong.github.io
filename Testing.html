@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="js/DataFactory.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+
+    Chọn Danh mục thử thách<br />
+    <input type="button" value="tg001" onclick="GoToCategory('tg001')" />
+    <input type="button" value="tg002" onclick="GoToCategory('tg002')" />
+    <input type="button" value="tg003" onclick="GoToCategory('tg003')" />
+    <input type="button" value="tg004" onclick="GoToCategory('tg004')" />
+    <input type="button" value="tg005" onclick="GoToCategory('tg005')" />
+    <input type="button" value="tg006" onclick="GoToCategory('tg006')" />
+    <input type="button" value="tg007" onclick="GoToCategory('tg007')" />
+    <input type="button" value="tg008" onclick="GoToCategory('tg008')" />
+
+    <script>
+
+        function AddIcon2(text) {
+            icon = {
+                ":))": "001.png",
+                ":D": "002.png",
+                "(y)": "003.png",
+                ":o": "004.png",
+                ":/": "005.png",
+                ":(": "006.png",
+                "<3": "007.png",
+                "\*/": "008.png",
+                "B|": "009.png"
+            };
+
+            var text2 = text
+
+            for (i = 0; i < 9; i++) {
+                var iconstr = Object.keys(icon)[i]
+                var iconimg = icon[iconstr]
+
+                htmlstr = '<img src="' + "IMG/icon/" + iconimg + '" />'
+                text2 = text2.replace(iconstr, htmlstr);
+            }
+
+            return text2
+        }
+
+        icon = {
+            ":))": "001.png",
+            ":D": "002.png",
+            "(y)": "003.png",
+            ":o": "004.png",
+            ":/": "005.png",
+            ":(": "006.png",
+            "<3": "007.png",
+            "\*/": "008.png",
+            "B|": "009.png"
+        };
+
+        var t = "Xin chào :)) các bạn"
+
+    </script>
+</body>
+</html>

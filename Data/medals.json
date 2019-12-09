@@ -1,0 +1,176 @@
+﻿{
+  "medalinfo": [
+    {
+      "medal": "IMG/medalimg/md001.png",
+      "name": "Có công mài sắt có ngày nên kim",
+      "info": "Huy hiệu giành cho những người có tinh thần sắt đá, giữ vững quyết tâm vượt qua thử thách"
+    },
+    {
+      "medal": "IMG/medalimg/md002.png",
+      "name": "Thiên hạ vô song",
+      "info": "Huy hiệu giành cho những người hoàn thành được những thử thách mà không ai làm được"
+    },
+    {
+      "medal": "IMG/medalimg/md003.png",
+      "name": "Đấu chiến thắng phật",
+      "info": "Huy hiệu giành cho kẻ chinh phục những thử thách không tưởng"
+    },
+    {
+      "medal": "IMG/medalimg/md004.png",
+      "name": "Vô địch cường giả",
+      "info": "Chỉ có ai giữ vững phong độ không bỏ một ngày nào mới có thể có huy hiệu này"
+    },
+    {
+      "medal": "IMG/medalimg/md005.png",
+      "name": "Tứ phương bất bại",
+      "info": "Bạn muốn có huy hiệu này, bạn phải hoàn thành thử thách của tất cả các chủ đề"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "name": "Đệ nhất kiên trì",
+      "info": "Sau nhiều lần lỡ nhịp thử thách, bạn vẫn có thể chiến thắng chính bản thân mình và quay lại cố gắng"
+    },
+    {
+      "medal": "IMG/medalimg/md007.png",
+      "name": "Bất bại thần tướng",
+      "info": "Huy hiệu giành kẻ không bị khuất gục dù sóng to bão lớn thế nào"
+    },
+    {
+      "medal": "IMG/medalimg/md008.png",
+      "name": "Chiến thần diệt khổ",
+      "info": "Gian khổ có là gì? Kẻ có huy hiệu này có thể diệt trừ, chiến thắng tất cả"
+    },
+    {
+      "medal": "IMG/medalimg/md009.png",
+      "name": "Tuyệt đỉnh chăm chỉ",
+      "info": "Trăm tài không bằng chăm chỉ, người chăm chỉ chính là kẻ thức thời, đệ nhất võ lâm, cán đích cuộc đời"
+    }
+  ],
+  "medaldetail": [
+    {
+      "medal": "IMG/medalimg/md001.png",
+      "iduser": "us001",
+      "giveDate": "07/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md002.png",
+      "iduser": "us001",
+      "giveDate": "07/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md008.png",
+      "iduser": "us002",
+      "giveDate": "07/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "iduser": "us002",
+      "giveDate": "07/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md003.png",
+      "iduser": "us009",
+      "giveDate": "07/05/2018"
+    },
+    {
+      "medal": "IMG/medalimg/md004.png",
+      "iduser": "us009",
+      "giveDate": "16/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md002.png",
+      "iduser": "us009",
+      "giveDate": "07/11/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md001.png",
+      "iduser": "us009",
+      "giveDate": "07/05/2018"
+    },
+    {
+      "medal": "IMG/medalimg/md005.png",
+      "iduser": "us009",
+      "giveDate": "21/07/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "iduser": "us009",
+      "giveDate": "24/04/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md008.png",
+      "iduser": "us009",
+      "giveDate": "24/05/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md009.png",
+      "iduser": "us009",
+      "giveDate": "14/06/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md005.png",
+      "iduser": "us009",
+      "giveDate": "21/07/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "iduser": "us005",
+      "giveDate": "24/04/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md008.png",
+      "iduser": "us005",
+      "giveDate": "24/05/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md009.png",
+      "iduser": "us005",
+      "giveDate": "14/06/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md003.png",
+      "iduser": "us002",
+      "giveDate": "24/04/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "iduser": "us002",
+      "giveDate": "24/05/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md005.png",
+      "iduser": "us002",
+      "giveDate": "14/06/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md002.png",
+      "iduser": "us003",
+      "giveDate": "24/04/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md007.png",
+      "iduser": "us003",
+      "giveDate": "24/05/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md008.png",
+      "iduser": "us003",
+      "giveDate": "14/06/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md006.png",
+      "iduser": "us004",
+      "giveDate": "24/04/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md003.png",
+      "iduser": "us004",
+      "giveDate": "24/05/2019"
+    },
+    {
+      "medal": "IMG/medalimg/md001.png",
+      "iduser": "us004",
+      "giveDate": "14/06/2019"
+    }
+  ]
+}
