@@ -274,14 +274,21 @@
 
         <form action="/search/" class="search-form">
             <div class="input-group">
-                <input class="search" type="search" name="q" placeholder="Tìm kiếm ..." autocomplete="off">
+                <input class="search" id="search" type="search" name="q" placeholder="Tìm kiếm ..." autocomplete="off">
                 <div class="input-group-append">
-                    <button class="btnsearch" type="submit">
+                    <button class="btnsearch" id="btnsearch" type="button" onclick="getValue()" keyup="">
                         <img src="IMG/img/search.png" width="20px" height="18px" />
                     </button>
                 </div>
             </div>
         </form>
+        <script>
+            function getValue() {
+                var term, myWindow;
+                term = document.getElementById('search').value;
+                myWindow = window.open("https://www.google.com/search?q=" + term, "_blank")
+            }  
+        </script>
         <!-- MENU LINKS -->
         <div class="navbar">
             <a href="HomePage.html" class="color-title">Trang Chủ</a>
