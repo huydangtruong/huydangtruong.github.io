@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>About Us</title>
+    <script src="js/sweetalert.js"></script>
+    <link rel="stylesheet" href="Mainstyle.css" type="text/css" />
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <link href="CSS/ScrollTop.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Container.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/EffectBanner.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/ContentMain.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Footer.css" type="text/css" rel="stylesheet" />
+
+    <script>
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</head>
+<body style="background-image: url('IMG/img/background.png');">
+    <!--Scroll Top-->
+    <button onclick="topFunction()" id="myBtn" title="Go to top">
+        <img src="IMG/img/downtop.png" width="30px" />
+    </button>
+    <!--Menu-->
+    <!-- MENU -->
+    <div class="container">
+        <div id="logo">
+            <img src="IMG/img/logo.png" class="logo" />
+        </div>
+        <!-- MENU LINKS -->
+        <div id="menu">
+            <input type="button" id="login" name="login" value="Đăng Nhập" onclick="window.open('LoginPage.html','_self')" />
+            <input type="button" id="regis" name="regis" value="Đăng ký" formaction="SignUp.html" onclick="window.open('RegisterPage.html','_self')" />
+        </div>
+    </div>
+  
+    <div>
+        <table width="100%" style="padding-top:75px">
+            <tr>
+                <td colspan="2">
+                    <div class="slideshow-container">
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide1.PNG" style="width:100%;height:450px" usemap="#Map">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide7.PNG" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide2.PNG" style="width:100%;height:450px" usemap="#Map1">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide8.PNG" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide3.PNG" style="width:100%;height:450px" usemap="#Map2">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide9.PNG" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide4.PNG" style="width:100%;height:450px" usemap="#Map3">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide10.PNG" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide5.PNG" style="width:100%;height:450px" usemap="#Map4">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide11.PNG" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide6.PNG" style="width:100%;height:450px" usemap="#Map5">
+
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // chạy slide show
+
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+
+    </script>
+    <!--CONTENT-->
+    <table id="content">
+        <tr>
+            <td>
+                <div>
+                    <center>
+                        <img src="IMG/slogan.png" id="slogan" />
+                    </center>
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="title">
+                    Tham gia cùng chúng tôi bạn được gì?
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <p>
+                    <img src="IMG/img/1.png" id="f1" />
+                    <img src="IMG/img/2.png" id="f2" />
+                    <img src="IMG/img/3.png" id="f3" />
+                    <img src="IMG/img/4.png" id="f4" />
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div id="title">
+                    Những thử thách thú vị đang chờ đợi bạn tham gia
+                </div>
+                <p class="active">
+                    <img src="IMG/img/sport.jpg" />
+                    <img src="IMG/img/family.jpg" />
+                    <img src="IMG/img/study.jpg" />
+
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!--FOOTER-->
+    <div class="footer">
+        <table>
+            <tfoot id="footer">
+                <tr>
+                    <td align="center" valign="middle">
+
+                        <fieldset class="contact">
+                            <img src="IMG/img/facebook.png" />
+
+                            <h4><a href="https://www.facebook.com/" target="_blank" class="color">Imdone</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/instagram.png" />
+
+                            <h4><a href="https://www.instagram.com/" target="_blank" class="color">_Imdone_</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/gmail.png" />
+
+                            <h4><a href="https://www.gmail.com/" target="_blank" class="color">imdone@gmail.com</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/mobile-phone.png" />
+                            <h4 style="color:#ff9900"> 0123456789</h4>
+                        </fieldset>
+                        <span>
+                            <img src="IMG/img/logo.png" class="logofooter" />
+                        </span>
+                        <span id="copy">&copy; O2O Team</span>
+
+                    </td>
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </div>
+</body>
+</html>

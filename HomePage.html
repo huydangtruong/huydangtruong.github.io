@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>HOME</title>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <link href="CSS/Container.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/NavigationBar.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Footer.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/ContentHome.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="CSS/ScrollTop.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Category.css" type="text/css" rel="stylesheet" />
+    <script src="js/JSSlide.js" type="text/javascript"></script>
+    <script>
+        window.onscroll = function () { scrollFunction() };
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        var ChallengeList = []
+        var app = angular.module("angularApp", [])
+        app.controller("Controller", function ($scope, $http) {
+            $http({
+                method: "GET",
+                url: "Data/challenge.json"
+            }).then(function mySucces(respone) {
+                $scope.challenge = respone.data
+
+            }, function myError(respone) {
+                $scope.dataError = respone.statusText
+            }
+            )
+            });
+
+    </script>
+</head>
+<body ng-app="angularApp" ng-controller="Controller" style="background-image: url('IMG/img/background.png');">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">
+        <img src="IMG/img/downtop.png" width="30px" />
+    </button>
+    <!-- MENU -->
+    <div class="container">
+        <div id="logo">
+            <img src="IMG/img/logo.png" class="logo" />
+        </div>
+
+        <form action="/search/" class="search-form">
+            <div class="input-group">
+                <input class="search" type="search" name="q" placeholder="Tìm kiếm ..." autocomplete="off">
+                <div class="input-group-append">
+                    <button class="btnsearch" type="submit">
+                        <img src="IMG/img/search.png" width="20px" height="18px" />
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- MENU LINKS -->
+        <div class="navbar">
+            <a href="HomePage.html" class="color-title">Trang Chủ</a>
+            <div class="subnav">
+                <div class="subnavbtn" onclick="window.open('Challenge.html','_self')">Thử Thách&nbsp;<i class="fa fa-caret-down"></i></div>
+                <div class="subnav-content">
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg001')">
+                        <img src="IMG/img/health.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Sức khoẻ
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg002')">
+                        <img src="IMG/img/language.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Ngoại ngữ
+
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg003')">
+                        <img src="IMG/img/eat.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Ăn uống
+
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg004')">
+                        <img src="IMG/img/study.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Sách
+                        </p>
+                    </a>
+
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg005')">
+                        <img src="IMG/img/nghethuat.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Nghệ thuật
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg006')">
+                        <img src="IMG/img/strong.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Trải nghiệm
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg007')">
+                        <img src="IMG/img/love.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Tình yêu
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg008')">
+                        <img src="IMG/img/family.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Gia đình
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg009')">
+                        <img src="IMG/img/banbe (2).png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Bạn bè
+                        </p>
+                    </a>
+
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg010')">
+                        <img src="IMG/img/moitruong.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Môi trường
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg011')">
+                        <img src="IMG/img/congnghe.png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Công nghệ
+                        </p>
+                    </a>
+
+                    <a class="Category" href="#" onclick="GoToCategory('tg012')">
+                        <img src="IMG/img/thienvan (2).png" class="icon_2Ap-" alt="">
+                        <p class="text_3zD4" style="color: rgb(0, 0, 0); padding-top: 3px;">
+                            Thiên văn
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <a href="Profile.html" class="color-title">Trang cá nhân</a>
+            <a href="#" class="color-title">Diễn đàn</a>
+            <a onclick="document.getElementById('id01').style.display='block'" style="width:auto;" class="btnContact color-title">Liên hệ</a>
+
+        </div>
+    </div>
+
+    <!--MAIN_CONTENT-->
+    <div>
+        <table width="100%" style="padding-top:75px">
+            <tr>
+                <td colspan="2">
+                    <div class="slideshow-container">
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide1.png" style="width:100%;height:450px" usemap="#Map">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide7.png" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide2.png" style="width:100%;height:450px" usemap="#Map1">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide8.png" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide3.png" style="width:100%;height:450px" usemap="#Map2">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide9.png" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide4.png" style="width:100%;height:450px" usemap="#Map3">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide10.png" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide5.png" style="width:100%;height:450px" usemap="#Map4">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide11.png" style="width:100%;height:450px">
+                        </div>
+
+                        <div class="mySlides fade">
+                            <img src="IMG/img/slide6.png" style="width:100%;height:450px" usemap="#Map5">
+
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        // chạy slide show
+
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+
+    </script>
+    <!--About us-->
+    <table id="content">
+        <tr>
+            <td>
+                <div >
+                    <center>
+                        <img src="IMG/slogan.png" id="slogan" />
+                    </center>
+                    
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="title">
+                    Tham gia cùng chúng tôi bạn được gì?
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="IMG/img/1.png" id="f1" />
+                <img src="IMG/img/2.png" id="f2"/>
+                <img src="IMG/img/3.png" id="f3"/>
+                <img src="IMG/img/4.png" id="f4"/>
+            </td>
+        </tr>
+    </table>
+    <!--Challange Hot-->
+    <div>
+        <div class="title">
+            Thử thách nổi bật
+        </div>
+    </div>
+    <div class="hotchallenge">
+        <div class="dieu-huong">
+            <i>
+                <img src="IMG/img/left-arrow.png" class="dieu-huong-trai" onclick="plusDivs(-1)" />
+            </i>
+            <i>
+                <img src="IMG/img/right-arrow.png" onclick="plusDivs(1)" class="dieu-huong-phai" />
+            </i>
+        </div>
+        <div class="chuyen-slide">
+            <div class="slidehome" ng-repeat="c in challenge">
+                <a href="#" class="Category">
+                    <img src="{{c.wallpaper}}" class="image" />
+                    <h3>
+                        {{c.name}}
+                    </h3>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--footer-->
+    <div class="footer">
+        <table>
+            <tfoot id="footer">
+                <tr>
+                    <td align="center" valign="middle">
+
+                        <fieldset class="contact">
+                            <img src="IMG/img/facebook.png" />
+
+                            <h4><a href="https://www.facebook.com/" target="_blank" class="color">Imdone</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/instagram.png" />
+
+                            <h4><a href="https://www.instagram.com/" target="_blank" class="color">_Imdone_</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/gmail.png" />
+
+                            <h4><a href="https://www.gmail.com/" target="_blank" class="color">imdone@gmail.com</a></h4>
+                        </fieldset>
+                        <fieldset class="contact">
+                            <img src="IMG/img/mobile-phone.png" />
+                            <h4 style="color:#ff9900"> 0123456789</h4>
+                        </fieldset>
+                        <span>
+                            <img src="IMG/img/logo.png" class="logofooter" />
+                        </span>
+                        <span id="copy">&copy; O2O Team</span>
+
+                    </td>
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </div>
+</body>
+</html>

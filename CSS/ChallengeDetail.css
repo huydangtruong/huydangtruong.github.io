@@ -1,0 +1,115 @@
+﻿body {
+    background-image: url("IMG/img/background.png");
+}
+table.challengeinfo tr td {
+    background-color: #ff9900;
+    padding: 4px;
+}
+
+table.challengeinfo span {
+    font-size: 17px;
+    font-family: Arial;
+}
+
+.systemicon {
+    height: 20px;
+    width: 20px;
+    margin-bottom: -4px;
+}
+
+.systemava {
+    height: 40px;
+    width: 40px;
+    margin-bottom: -5px;
+    border-radius: 100%;
+    border: 1px solid #ff9900;
+    margin: 10px 5px;
+    float: left
+}
+
+.divprocess {
+    border-radius: 10px;
+    margin: auto;
+    width: 80%;
+    border: 1px solid #ffd399;
+    display: block;
+    position: relative;
+    padding: 10px;
+    clear: both;
+}
+
+.processMiss {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 4px;
+    margin-right: 4px;
+    border-radius: 5px;
+    background-color: gray;
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+
+.processDone {
+    padding-top:5px;
+    padding-bottom:5px;
+    margin-top: 4px;
+    margin-right: 4px;
+    border-radius: 5px;
+    background-color: #40b907;
+    display: inline-block;
+    width:50px;
+    text-align:center;
+}
+
+.categoryTitle {
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 5px;
+    font-family: Arial;
+    color: white;
+    font-size: 23px;
+}
+.usercmt {
+    margin-bottom: 3px;
+    background-color: none;
+    border-radius: 10px;
+    padding: 5px
+}
+    .usercmt:hover {
+        margin-bottom: 3px;
+        background-color: rgba(255, 140, 0, 0.4);
+        border-radius: 10px;
+        padding: 5px
+    }
+    .UserNameLink {
+        color: dodgerblue;
+        margin: 3px 0px 0px;
+    }
+    .UserNameLink:hover {
+        font-weight: 600;
+        cursor: pointer;
+    }
+#contentcmt {
+    width: 80%;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px
+}
+.award {
+    background-color: lightgray;
+    padding: 5px 5px;
+    margin-left: 5px;
+    vertical-align: top;
+    border-radius: 5px
+}
+#challengename {
+    margin-bottom: 5px;
+    padding-bottom: 1px;
+    margin-left:20px;
+}
+#challengetag {
+    margin-left: 20px;
+}

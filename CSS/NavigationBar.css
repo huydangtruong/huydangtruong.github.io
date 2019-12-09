@@ -1,0 +1,174 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search {
+    height: 25px;
+    margin-top: 25px;
+    width: 300px;
+    position: relative;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    padding: 20px 10px;
+}
+    .search:hover {
+        opacity: 0.9;
+    }
+
+.input-group {
+    margin-left: 150px;
+    float: left;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+input-group-append {
+    position: relative;
+    margin-top: 25px;
+}
+
+.btnsearch {
+    margin-top: 25px;
+    background-color: none;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 0 20px 20px 0;
+}
+
+.navbar {
+    overflow: hidden;
+    width: 700px;
+    height: 80px;
+    margin-left: 600px;
+}
+
+    .navbar a {
+        float: left;
+        font-size: 16px;
+        color: white;
+        margin-top: 30px;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+.subnav {
+    float: left;
+}
+
+    .subnav .subnavbtn {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 14px 16px;
+        font-weight: bold;
+        margin-top: 30px;
+        cursor: pointer;
+    }
+
+    .navbar a:hover, .subnav:hover .subnavbtn {
+        background-color: #ff3300;
+        cursor: pointer;
+    }
+
+.subnav-content {
+    display: none;
+    position: absolute;
+    left: 50px;
+    background: linear-gradient(to bottom,#ff3300,#ff9900);
+    width: 95%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+
+.color-title:visited {
+    color: white;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+.subnav-content a {
+    float: left;
+    color: white;
+    text-decoration: none;
+}
+
+    .subnav-content a:hover {
+        background-color: #eee;
+        color: black;
+    }
+
+.subnav:hover .subnav-content {
+    display: block;
+}
+
+img.image {
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+input#create {
+    font-family: '%239Slide03 AmpleSoft';
+    font-size: large;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color: #ff6a00;
+    width: 120px;
+    height: 33px;
+    border-radius: 25px;
+    margin-top: -50px;
+    margin-left: 1200px;
+    float: right;
+    position: fixed;
+}
+
+    input#create:hover {
+        background: linear-gradient(to right,#ff3300,#ff9900);
+        color: black;
+    }
+
+.subnav-content-account {
+    display: none;
+    position: absolute;
+    background: linear-gradient(to bottom,#ff3300,#ff9900);
+    cursor: pointer;
+    width: 160px;
+    margin-top: 14px;
+}
+
+    .subnav-content-account a {
+        font-size: small;
+        color: black;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        min-width: 160px;
+        z-index: 1;
+        margin-top: 0px;
+    }
+
+        .subnav-content-account a:hover {
+            background-color: #eee;
+            color: black;
+        }
+
+.subnav:hover .subnav-content-account {
+    display: block;
+}

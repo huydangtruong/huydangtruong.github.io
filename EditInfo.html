@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!-- Khai báo external các kiểu -->
+    <link rel="stylesheet" href="CSS/StyleControl.css" type="text/css" />
+    <script src="js/sweetalert.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/DataFactory.js"></script>
+    <link href="CSS/Container.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/NavigationBar.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Footer.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/ContentHome.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="CSS/ScrollTop.css" type="text/css" rel="stylesheet" />
+    <link href="CSS/Category.css" type="text/css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="CSS/Profile.css" />
+    <link rel="stylesheet" href="CSS/Edit_Info.css" type="text/css" />
+    <link rel="stylesheet" href="CSS/ccStyle.css" />
+
+    <script>
+        var UserList = GetStoredData("UserList")
+        var CurrentUser = GetStoredData("currentUser")
+
+        var UserList = []
+        var app = angular.module("angularApp", [])
+        app.controller("Controller", function ($scope, $http) {
+            $http({
+                method: "GET",
+                url: "Data/user.json"
+            }).then(function mySucces(respone) {
+                $scope.user = respone.data
+                UserList = respone.data
+            }, function myError(respone) {
+                $scope.dataError = respone.statusText
+            }
+            )
+        });
+    </script>
+</head>
+<body class="firststyle" ng-app="angularApp" ng-controller="Controller">
+    
+    <!-------------------------------Content-------------------------->
+
+    <div class="limiter">
+        <div class="container-login">
+            <div class="wrap-login">
+                <div class="login-pic">
+                    <center>
+                        <span class="login-form-title">Ảnh đại diện của bạn</span>
+                        <img id="avatar" style="border-radius:100%;height:140px;width:140px" />
+                        <span class="login-form-title">Ảnh bìa của bạn</span>
+                        <img id="wallpaper" style="height:150px;width:600px" />
+                    </center>
+                </div>
+                <form class="login-form">
+                    <span class="login-form-title">Chỉnh sửa thông tin cá nhân</span>
+                    Chọn ảnh đại diện mới
+                    <select id="cmbava" class="combo-box" onchange="updateAva()">
+                        <option value="IMG/userimg/us001.png">Ảnh đại diện mẫu 1</option>
+                        <option value="IMG/userimg/us002.png">Ảnh đại diện mẫu 2</option>
+                        <option value="IMG/userimg/us003.png">Ảnh đại diện mẫu 3</option>
+                        <option value="IMG/userimg/us004.png">Ảnh đại diện mẫu 4</option>
+                        <option value="IMG/userimg/us005.png">Ảnh đại diện mẫu 5</option>
+                        <option value="IMG/userimg/us006.png">Ảnh đại diện mẫu 6</option>
+                        <option value="IMG/userimg/us007.png">Ảnh đại diện mẫu 7</option>
+                        <option value="IMG/userimg/us008.png">Ảnh đại diện mẫu 8</option>
+                        <option value="IMG/userimg/us009.png">Ảnh đại diện mẫu 9</option>
+                        <option value="IMG/userimg/us010.png">Ảnh đại diện mẫu 10</option>
+                        <option value="IMG/userimg/us011.png">Ảnh đại diện mẫu 11</option>
+                        <option value="IMG/userimg/us012.png">Ảnh đại diện mẫu 12</option>
+                    </select>
+                    Chọn ảnh bìa mới
+                    <select id="cmbwall" class="combo-box" onchange="updateWall()">
+                        <option value="IMG/userimg/us101.png">Ảnh bìa mẫu 1</option>
+                        <option value="IMG/userimg/us102.png">Ảnh bìa mẫu 2</option>
+                        <option value="IMG/userimg/us103.png">Ảnh bìa mẫu 3</option>
+                        <option value="IMG/userimg/us104.png">Ảnh bìa mẫu 4</option>
+                        <option value="IMG/userimg/us105.png">Ảnh bìa mẫu 5</option>
+                        <option value="IMG/userimg/us106.png">Ảnh bìa mẫu 6</option>
+                        <option value="IMG/userimg/us107.png">Ảnh bìa mẫu 7</option>
+                        <option value="IMG/userimg/us108.png">Ảnh bìa mẫu 8</option>
+                        <option value="IMG/userimg/us109.png">Ảnh bìa mẫu 9</option>
+                        <option value="IMG/userimg/us110.png">Ảnh bìa mẫu 10</option>
+                        <option value="IMG/userimg/us111.png">Ảnh bìa mẫu 11</option>
+                        <option value="IMG/userimg/us112.png">Ảnh bìa mẫu 12</option>
+                    </select>
+                    <div>
+                        <button class="login-form-btn" type="button" onclick="Regis()">
+                            <b>Xác nhận</b>
+                        </button>
+                        <button class="login-form-btn" type="button" onclick="GOBack()">
+                            <b>Huỷ</b>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script>
+        var CurrentUser = GetStoredData("currentUser")
+
+        SetAttribute("avatar", "src", CurrentUser.avatar)
+        SetAttribute("wallpaper", "src", CurrentUser.wallpaper)
+
+        function updateAva() {
+            var cmb1 = document.getElementById("cmbava");
+            var newIMG = cmb1.options[cmb1.selectedIndex].value
+            SetAttribute("avatar", "src", newIMG)
+        }
+        function updateWall() {
+            var cmb2 = document.getElementById("cmbwall");
+            var newIMG = cmb2.options[cmb2.selectedIndex].value
+            SetAttribute("wallpaper", "src", newIMG)
+        }
+        function Regis() {
+            var cmb2 = document.getElementById("cmbwall");
+            var newWALL = cmb2.options[cmb2.selectedIndex].value
+            var cmb1 = document.getElementById("cmbava");
+            var newAVA = cmb1.options[cmb1.selectedIndex].value
+            CurrentUser.avatar = newAVA;
+            CurrentUser.wallpaper = newWALL;
+            SaveToLocal("currentUser", CurrentUser)
+
+            swal("Cập nhật ảnh thành công", "success")
+            GoToProfile(CurrentUser.iduser,UserList)
+        }
+        function GOBack() {
+            GoToProfile(CurrentUser.iduser,UserList)
+        }
+    </script>
+</body>
+</html>

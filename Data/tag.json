@@ -1,0 +1,50 @@
+﻿[
+  {
+    "idtag": "tg001",
+    "name": "sức khoẻ"
+  },
+  {
+    "idtag": "tg002",
+    "name": "ngoại ngữ"
+  },
+  {
+    "idtag": "tg003",
+    "name": "ăn uống"
+  },
+  {
+    "idtag": "tg004",
+    "name": "sách"
+  },
+  {
+    "idtag": "tg005",
+    "name": "nghệ thuật"
+  },
+  {
+    "idtag": "tg006",
+    "name": "trải nghiệm"
+  },
+  {
+    "idtag": "tg007",
+    "name": "tình yêu"
+  },
+  {
+    "idtag": "tg008",
+    "name": "gia đình"
+  },
+  {
+    "idtag": "tg009",
+    "name": "bạn bè"
+  },
+  {
+    "idtag": "tg010",
+    "name": "môi trường"
+  },
+  {
+    "idtag": "tg011",
+    "name": "công nghệ"
+  },
+  {
+    "idtag": "tg012",
+    "name": "thiên văn"
+  }
+]

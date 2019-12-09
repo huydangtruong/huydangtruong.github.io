@@ -1,0 +1,56 @@
+﻿@import url('Container.css');
+body {
+}
+/*-------MENU--------*/
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+    position: fixed;
+    height: 80px;
+    margin-top: 0px;
+    background: linear-gradient(to top,#ff3300,#000000);
+    width: 100%;
+    border-bottom: 1px solid black;
+    background-attachment: fixed;
+    background-position: top;
+    z-index:10;
+}
+#logo {
+    top: 0; /*Nằm trên cùng*/
+    right: 0; /*Nằm sát bên trái*/
+    margin-top: 5px;
+    margin-left:10px;
+    float:left;
+    width:60px;
+}
+.logo{
+    width:150px;
+    height:auto;
+    
+}
+#login, #regis {
+    font-family: '%239Slide03 AmpleSoft';
+    font-size: large;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color:#ff6600;
+    width: 100px;
+    height: 35px;
+    border-radius: 25px;
+    margin-right:10px;
+    margin-top:15px;
+    float:right;
+    
+    
+}
+    
+    #login:hover, #regis:hover {
+        background: linear-gradient(to right,#ff3300,#ff9900);
+    }
+
+
+
+
