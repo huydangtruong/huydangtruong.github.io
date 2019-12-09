@@ -42,20 +42,17 @@
 .left {
     width: 25%;
     height: 100vh;
-    padding-top: 93px
 }
 
 
 .right {
     width: 20%;
     height: 100vh;
-    padding-top: 93px
 }
 
 .middle {
     width: 55%;
     height: 100vh;
-    padding-top: 93px
 }
 
 .row:after {
