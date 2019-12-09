@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Chi tiết Thử thách</title>
+
+    <!-- Khai báo external các kiểu -->
+    <link rel="stylesheet" href="StyleControl.css" type="text/css" />
+
+    <script src="js/sweetalert.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/DataFactory.js"></script>
+
+    <script>
+        var ChallengeList = []
+        var UserList = GetStoredData("UserList")
+        var app = angular.module("angularApp", [])
+        var TargetChallenge = GetStoredData("TargetChallenge")
+        console.log(TargetChallenge)
+
+        var ListMedalInfo = GetStoredData("ListMedals")
+        var CurrentUser = GetStoredData("currentUser")
+
+        app.controller("Controller", function ($scope, $http, $sce) {
+            $http({
+                method: "GET",
+                url: "Data/challenge.json"
+            }).then(function mySucces(respone) {
+                $scope.trustAsHtml = $sce.trustAsHtml //Nhận tag html khi ng-repeat
+                $scope.challenge = respone.data
+                ChallengeList = respone.data
+
+                ShowChallengInfo(TargetChallenge)
+
+                //------------------------Show Joiner------------------------------
+                ListJoinerByID = TargetChallenge.joiner
+                ListJoiner = []
+                for (index = 0; index < ListJoinerByID.length; index++) {
+                    for (ind = 0; ind < Object.keys(UserList).length; ind++) {
+                        if (ListJoinerByID[index] == UserList[ind].iduser) {
+                            ListJoiner.push({ "iduser": UserList[ind].iduser, "avatar": UserList[ind].avatar, "name": UserList[ind].name })
+                        }
+                    }
+                }
+                $scope.ListJoiner = ListJoiner
+                $scope.GoToProfile = function (iduser) {
+                    GoToProfile(iduser,UserList)
+                }
+
+                //----------------------Show award images--------------------------
+                var awardInfo = []
+                var ChallengeAwards = TargetChallenge.award
+
+                for (indx = 0; indx < ChallengeAwards.length; indx++) {
+                    for (idx = 0; idx < Object.keys(ListMedalInfo).length; idx++) {
+                        if (ChallengeAwards[indx] == ListMedalInfo[idx].medal) {
+                            awardInfo.push({ "medal": ListMedalInfo[idx].medal, "name": ListMedalInfo[idx].name, "info": ListMedalInfo[idx].info })
+                        }
+                    }
+                }
+                $scope.awardInfo = awardInfo
+
+                //--------------------------Show Modal--------------------------
+                var modal = document.getElementById("myModal");
+                var span = document.getElementById("close");
+
+                $scope.ShowJoiner = function () {
+                    modal.style.display = "block";
+                }
+
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+
+                var modal2 = document.getElementById("myModal2");
+                var span2 = document.getElementById("close2");
+                $scope.ShowMedalInfo = function (medalname) {
+                    for (iid = 0; iid < Object.keys(ListMedalInfo).length; iid++) {
+                        if (ListMedalInfo[iid].medal == medalname) {
+                            SetAttribute("medalimg", "src", ListMedalInfo[iid].medal)
+                            PrintToTag("medalname", ListMedalInfo[iid].name)
+                            PrintToTag("medalinfo", ListMedalInfo[iid].info)
+
+                            medalshow = document.getElementById("myModal2")
+                            medalshow.style.display = "block";
+                        }
+                    }
+                }
+                span2.onclick = function () {
+                    document.getElementById("myModal2").style.display = "none";
+                }
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                    if (event.target == modal2) {
+                        modal2.style.display = "none";
+                    }
+                }
+            },
+                $http({
+                    method: "GET",
+                    url: "Data/challengemem.json"
+                }).then(function mySucces(respone) {
+                    var challengemem = respone.data
+                    var streakHTML = ""
+                    //-------------------------------Show process-----------------------------
+                    for (qq = 0; qq < LengthOfObj(challengemem); qq++) {
+                        //alert(challengemem[qq].iduser +"-"+ CurrentUser.iduser +" && "+ challengemem[qq].idchallenge +"-"+ TargetChallenge.idchallenge)
+                        if (challengemem[qq].iduser == CurrentUser.iduser && challengemem[qq].idchallenge == TargetChallenge.idchallenge) {
+                            var streakList = challengemem[qq].streak
+
+                            streakHTML = GetStreakHTML(streakList)
+                            document.getElementById("clprocess").innerHTML = streakHTML
+                        }
+                    }
+                    
+                    if (streakHTML.length < 1) {
+                        streakHTML = "<img id='CheckDoneButton' src='IMG/system/checkdone1.png' height='30' width='60' style='margin-bottom:-8px' onclick='CheckDoneButton()' />"
+                        document.getElementById("clprocess").innerHTML = streakHTML
+                    }
+                },
+                    $http({
+                        method: "GET",
+                        url: "Data/challengecmt.json"
+                    }).then(function mySucces(respone) {
+
+                        var cmtList = respone.data
+
+                        for (ii = 0; ii < LengthOfObj(cmtList); ii++) {
+                            for (jj = 0; jj < LengthOfObj(UserList); jj++) {
+                                if (cmtList[ii].idchallenge == TargetChallenge.idchallenge) {
+                                    if (cmtList[ii].iduser == UserList[jj].iduser) {
+                                        cmtList[ii]["avatar"] = UserList[jj].avatar;
+                                        cmtList[ii]["name"] = UserList[jj].name;
+                                        cmtList[ii].content = AddIcon(cmtList[ii].content)
+                                    }
+                                }
+                            }
+                        }
+                        cmtListThisChallenge = []
+                        for (yy = 0; yy < LengthOfObj(cmtList); yy++) {
+                            if (cmtList[yy].idchallenge == TargetChallenge.idchallenge) {
+                                cmtListThisChallenge.push(cmtList[yy])
+                            }
+                        }
+                        $scope.comment = cmtListThisChallenge.reverse()
+
+                    }, function myError(respone) {
+                        $scope.dataError = respone.statusText
+                    }))
+            )
+        })
+    </script>
+</head>
+<body ng-app="angularApp" ng-controller="Controller">
+    <!--Navigation bar -->
+    <a id="tabChallenge" name="tabChallenge" href="Challenge.html">Thử thách</a>
+    <a id="tabCommunity" name="tabCommunity" href="Community.html">Cộng đồng</a>
+    <input id="txtSearch" name="txtSearch" type="text" placeholder="Tìm kiếm..." />
+    <img id="picAva" name="picAva" src="" height="50" width="50" />
+    <b id="tabProfile" name="tabProfile" onclick="Go2Profile()" style="color: dodgerblue"></b>
+
+    <!------------------------------------Modal Content------------------------------------>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <center><p><b>Người tham gia thử thách</b></p></center>
+            <table>
+                <tr ng-repeat="u in ListJoiner" ng-click="GoToProfile(u.iduser)">
+                    <td>
+                        <img src="{{u.avatar}}" width="40" height="40" /></td>
+                    <td>{{u.name}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="myModal2" class="modal">
+        <div class="modal-content" style="width: 40%">
+            <span id="close2" class="close">&times;</span>
+            <center>
+                    <img id="medalimg" height="200" width="200"/>
+                    <p><b id="medalname">Tên huy hiệu</b></p>
+                </center>
+            <p id="medalinfo">Mô tả huy hiệu</p>
+        </div>
+    </div>
+
+
+    <!------------------------------------Challenge Info----------------------------------->
+    <img id="wallpaper" width="100%" height="300" />
+    <h1 id="challengename" style="font-family: Arial; margin-bottom: 1px; padding-bottom: 1px">Tên challenge</h1>
+    <span id="challengetag" class="tagspan"></span>
+    <span id="challengedate" style="font-size: 13px; color: dimgrey">date</span>
+    <table width="100%" class="challengeinfo">
+        <tr>
+            <td>
+                <img src="IMG/system/up.png" class="systemicon" />
+                <span id="upvote" style="color: orange">upvote</span>
+            </td>
+            <td>
+                <img src="IMG/system/viewers.png" class="systemicon" />
+                <span id="views" style="color: dodgerblue">Lượt views</span>
+            </td>
+            <td width="60%" ng-click="ShowJoiner()">
+                <img src="IMG/system/joiner.png" class="systemicon" />
+                <span id="joiner" style="color: forestgreen">Người tham gia</span>
+                <span id="joinerIMG"></span>
+            </td>
+        </tr>
+    </table>
+    <table width="90%" align="center">
+        <tr>
+            <td style="border: 1px solid gray;" width="75%">
+                <table>
+                    <tr>
+                        <td rowspan="2">
+                            <img id="avacreator" class="systemava" />
+                        </td>
+                        <td>
+                            <span id="namecreator"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; color: dimgray">Người tạo thử thách</td>
+                    </tr>
+                </table>
+                <div id="description" style="padding: 10px; margin-top: 15px;"></div>
+            </td>
+            <td style="background-color: lightgray; padding: 5px 5px; margin-left: 5px; vertical-align: top">
+                <div style="background-color: orange; text-align: center">Phần thưởng</div>
+                <span ng-repeat="a in awardInfo">
+                    <img src="{{a.medal}}" height="45" width="45" ng-click="ShowMedalInfo(a.medal)"/>
+                </span>
+            </td>
+            <tr>
+    </table>
+    <center>Tiến độ của tôi</center>
+    <div id="clprocess" class="divprocess"></div>
+    <p></p>
+    <!------------------------ Challenge's comments---------------------->
+    <div>
+        <div style="background-color: cornflowerblue; text-align: center; margin-bottom: 4px">Bình luận</div>
+        <div style="margin-bottom: 3px; background-color: #e4e4e4; border-radius: 10px; padding: 5px;">
+            <input id="contentcmt" type="text" placeholder="Chia sẻ suy nghĩ của bạn" style="width: 80%;margin-left:10px" />
+            <input type="button" value="Đăng" onclick="PostNewComment()" />
+        </div>
+        <div id="newComment"></div>
+        <div style="margin-bottom: 3px; background-color: #e4e4e4; border-radius: 10px; padding: 5px" ng-repeat="c in comment">
+            <img src="{{c.avatar}}" class="systemava" style="margin: 10px 5px; float: left" />
+            <p class="UserNameLink" style="margin: 3px 0px 0px;" ng-click="GoToProfile(c.iduser)">{{c.name}}</p>
+            <p style="color: gray; font-size: 12px; margin: 0px 5px 0px 0px;">{{c.date}}</p>
+            <p style="margin-top: 0px; margin-bottom: 4px;" ng-bind-html="trustAsHtml(c.content)"></p>
+        </div>
+    </div>
+
+
+
+    <script>
+        var CurrentUser = GetStoredData("currentUser")
+
+        PrintToTag("tabProfile", CurrentUser.name)
+        SetAttribute("picAva", "src", CurrentUser.avatar)
+
+        function ShowChallengInfo(ChallengeData) {
+            SetAttribute("wallpaper", "src", ChallengeData.wallpaper)
+            PrintToTag("challengename", ChallengeData.name)
+            PrintToTag("challengetag", ChallengeData.tagname)
+            document.getElementById("challengetag").style.backgroundColor = ChallengeData.tagcolor
+            PrintToTag("challengedate", ChallengeData.startdate + " - " + ChallengeData.enddate)
+            PrintToTag("upvote", ChallengeData.upvote)
+            PrintToTag("views", ChallengeData.views)
+            PrintToTag("joiner", ChallengeData.joiner.length + " người tham gia thử thách này ")
+            PrintToTag("joinerIMG", ChallengeData.joinerIMG)
+            SetAttribute("avacreator", "src", FindObjectValue(UserList, "avatar", "iduser", ChallengeData.iduser))
+            PrintToTag("namecreator", FindObjectValue(UserList, "name", "iduser", ChallengeData.iduser))
+            PrintToTag("description", ChallengeData.description)
+        }
+
+        function CheckDoneButton() {
+            if (document.getElementById("CheckDoneButton").getAttribute("src") == "IMG/system/checkdone1.png") {
+                SetAttribute("CheckDoneButton", "src", "IMG/system/checkdone3.png")
+            }
+            else {
+                SetAttribute("CheckDoneButton", "src", "IMG/system/checkdone1.png")
+            }
+        }
+
+        function Go2Profile() {
+            GoToProfile(GetStoredData("currentUser").iduser, GetStoredData("UserList"))
+        }
+
+        function OpenChallengeList() {
+            window.open("ChallengeList.html", "_self")
+        }
+        function GoMyProfile() {
+            GoToProfile(CurrentUser.iduser,UserList)
+        }
+        function PostNewComment() {
+            newcmtDiv = document.getElementById("newComment")
+            contentCmt = document.getElementById("contentcmt").value
+
+            newcmtDiv.innerHTML = "<div style='margin-bottom: 3px; background-color: #e4e4e4; border-radius: 10px; padding: 5px'>"+
+            "<img src='"+CurrentUser.avatar+"' class='systemava' style='margin: 10px 5px; float: left' />"+
+            "<p class='UserNameLink' style='margin: 3px 0px 0px;' onclick='GoMyProfile()'>"+CurrentUser.name+"</p>"+
+            "<p style='color: gray; font-size: 12px; margin: 0px 5px 0px 0px;'>"+getCurrentDate()+"</p>"+
+            "<p style='margin-top: 0px; margin-bottom: 4px;'>"+AddIcon(contentCmt)+"</p></div>" + newcmtDiv.innerHTML
+        }
+
+        var input = document.getElementById("contentcmt");
+        input.addEventListener("keyup", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                // Trigger the button element with a click
+                PostNewComment()
+            }
+        })
+    </script>
+</body>
+</html>
